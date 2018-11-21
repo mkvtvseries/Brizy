@@ -218,6 +218,7 @@ class Brizy_Editor {
 	private function loadEditorApi( $project, $post, $user ) {
 		try {
 			new Brizy_Editor_API( $project, $post );
+			new Brizy_Editor_Forms_Api( $project, $post );
 
 			// for other apis
 			do_action( 'brizy_register_api_methods', array( $user, $project, $post ) );

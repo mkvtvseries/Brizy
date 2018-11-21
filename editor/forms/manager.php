@@ -9,9 +9,9 @@
 class Brizy_Editor_Forms_Manager {
 
 	/**
-	 * @var Brizy_Editor_Storage_Common
+	 * @var Brizy_Editor_Project
 	 */
-	private $storage;
+	private $project;
 
 	/**
 	 * @var Brizy_Editor_Forms_Form[]
@@ -19,15 +19,17 @@ class Brizy_Editor_Forms_Manager {
 	private $forms;
 
 	/**
-	 * Brizy_Form_Manager constructor.
+	 * Brizy_Editor_Forms_Manager constructor.
 	 *
-	 * @param Brizy_Editor_Storage_Common $storage
-	 *
-	 * @throws Brizy_Editor_Exceptions_NotFound
+	 * @param Brizy_Editor_Project $project
 	 */
-	public function __construct( $storage ) {
-		$this->storage = $storage;
-		$this->forms   = $this->storage->get( 'forms', false );
+	public function __construct( Brizy_Editor_Project $project ) {
+		$this->project = $project;
+		try {
+			$this->forms = $project->getMetaValue( 'forms' );
+		} catch ( Exception $exception ) {
+			$this->forms = array();
+		}
 	}
 
 	/**
@@ -67,6 +69,6 @@ class Brizy_Editor_Forms_Manager {
 	}
 
 	private function updateStorage() {
-		$this->storage->set( 'forms', $this->forms );
+		$this->project->setMetaValue( 'forms', $this->forms );
 	}
 }
