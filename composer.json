@@ -1,7 +1,7 @@
 {
   "name": "Brizy",
   "description": "A free drag & drop framework that comes with a bunch of built in extensions that will help you develop premium themes fast & easy.",
-  "minimum-stability": "stable",
+  "minimum-stability": "dev",
   "license": "GPL2+",
   "authors": [
     {
@@ -11,6 +11,13 @@
   "require-dev": {
   },
   "require": {
-    "twig/twig": "~1.32.0"
-  }
+    "twig/twig": "~1.32.0",
+    "bagrinsergiu/Brizy-Forms-SDK": "dev-master"
+  },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "git@github.com:bagrinsergiu/Brizy-Forms-SDK.git"
+    }
+  ]
 }
