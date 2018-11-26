@@ -197,14 +197,8 @@ class Brizy_Editor_Forms_Form extends Brizy_Admin_Serializable {
 
 		$errors = array();
 
-		if ( $target == 'update' ) {
-			if ( ! $this->getId() ) {
-				$errors['fromEmail'] = 'Invalid form id';
-			}
-		}
-
-		if ( ! $this->getEmailTo() || ! filter_var( $this->getEmailTo(), FILTER_VALIDATE_EMAIL ) ) {
-			$errors['emailTo'] = 'Invalid email provided';
+		if(!$this->getId()) {
+			$errors['id'] = 'Invalid form id';
 		}
 
 		if ( count( $errors ) ) {
