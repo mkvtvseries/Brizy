@@ -130,7 +130,7 @@ class Brizy_Editor_Editor_Editor {
 				'templateIcons'       => $this->urlBuilder->proxy_url( 'template/icons' ),
 				'site'                => home_url(),
 				'upgradeToPro'        => apply_filters( 'brizy_upgrade_to_pro_url', Brizy_Config::UPGRADE_TO_PRO_URL ),
-				'dashboardNavMenu'    => admin_url('nav-menus.php')
+				'dashboardNavMenu'    => admin_url( 'nav-menus.php' )
 			),
 			'user'            => array( 'role' => 'admin' ),
 			'wp'              => array(
@@ -170,10 +170,16 @@ class Brizy_Editor_Editor_Editor {
 					'updateMenuData'             => Brizy_Editor_API::AJAX_UPDATE_MENU_DATA,
 					'updateMenuItemData'         => Brizy_Editor_API::AJAX_UPDATE_MENU_ITEM_DATA,
 					'getDefaultForm'             => Brizy_Editor_Forms_Api::AJAX_GET_DEFAULT_FORM,
-					'getForm'                    => Brizy_Editor_Forms_Api::AJAX_GET_FORM,
-					'createForm'                 => Brizy_Editor_Forms_Api::AJAX_CREATE_FORM,
-					'deleteForm'                 => Brizy_Editor_Forms_Api::AJAX_DELETE_FORM,
-					'submitForm'                 => Brizy_Editor_Forms_Api::AJAX_SUBMIT_FORM,
+
+					'getForm'    => Brizy_Editor_Forms_Api::AJAX_GET_FORM,
+					'createForm' => Brizy_Editor_Forms_Api::AJAX_CREATE_FORM,
+					'deleteForm' => Brizy_Editor_Forms_Api::AJAX_DELETE_FORM,
+					'submitForm' => Brizy_Editor_Forms_Api::AJAX_SUBMIT_FORM,
+
+					'getIntegration'          => Brizy_Editor_Forms_Api::AJAX_GET_INTEGRATION,
+					'updateIntegration'       => Brizy_Editor_Forms_Api::AJAX_UPDATE_INTEGRATION,
+					'deleteIntegration'       => Brizy_Editor_Forms_Api::AJAX_DELETE_INTEGRATION,
+					'authenticateIntegration' => Brizy_Editor_Forms_Api::AJAX_AUTHENTICATE_INTEGRATION,
 
 				),
 				'plugins'         => array(
@@ -465,7 +471,7 @@ class Brizy_Editor_Editor_Editor {
 				'megaMenuItems' => $megaMenuItems,
 				'description'   => $item->post_content,
 				'position'      => $item->menu_order,
-				'attrTitle'    => $item->post_excerpt,
+				'attrTitle'     => $item->post_excerpt,
 				'target'        => get_post_meta( $item->ID, '_menu_item_target', true ),
 				'classes'       => get_post_meta( $item->ID, '_menu_item_classes', true ),
 				'xfn'           => get_post_meta( $item->ID, '_menu_item_xfn', true ),

@@ -44,6 +44,11 @@ class Brizy_Editor_Forms_Integration extends Brizy_Admin_Serializable {
 	 */
 	protected $usedGroup;
 
+
+	public function __construct( $id ) {
+		$this->id = $id;
+	}
+
 	/**
 	 * @return string
 	 */
@@ -89,17 +94,6 @@ class Brizy_Editor_Forms_Integration extends Brizy_Admin_Serializable {
 	 */
 	public function getId() {
 		return $this->id;
-	}
-
-	/**
-	 * @param string $id
-	 *
-	 * @return Brizy_Editor_Forms_Integration
-	 */
-	public function setId( $id ) {
-		$this->id = $id;
-
-		return $this;
 	}
 
 	/**
