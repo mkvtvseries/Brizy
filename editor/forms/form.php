@@ -13,15 +13,15 @@ class Brizy_Editor_Forms_Form extends Brizy_Admin_Serializable {
 	 */
 	protected $id;
 
-	/**
-	 * @var string
-	 */
-	protected $emailTo;
-
-	/**
-	 * @var string
-	 */
-	protected $subject;
+//	/**
+//	 * @var string
+//	 */
+//	protected $emailTo;
+//
+//	/**
+//	 * @var string
+//	 */
+//	protected $subject;
 
 	/**
 	 * @var Brizy_Editor_Forms_Integration[]
@@ -44,8 +44,8 @@ class Brizy_Editor_Forms_Form extends Brizy_Admin_Serializable {
 	public function jsonSerialize() {
 		$get_object_vars = array(
 			'id'           => $this->id,
-			'emailTo'      => $this->emailTo,
-			'subject'      => $this->subject,
+//			'emailTo'      => $this->emailTo,
+//			'subject'      => $this->subject,
 			'integrations' => $this->integrations,
 		);
 
@@ -55,8 +55,8 @@ class Brizy_Editor_Forms_Form extends Brizy_Admin_Serializable {
 	public function convertToOptionValue() {
 		return array(
 			'id'           => $this->id,
-			'emailTo'      => $this->emailTo,
-			'subject'      => $this->subject,
+//			'emailTo'      => $this->emailTo,
+//			'subject'      => $this->subject,
 			'integrations' => $this->integrations,
 		);
 	}
@@ -64,8 +64,8 @@ class Brizy_Editor_Forms_Form extends Brizy_Admin_Serializable {
 	static public function createFromSerializedData( $data ) {
 		$instance               = new self();
 		$instance->id           = $data['id'];
-		$instance->emailTo      = $data['emailTo'];
-		$instance->subject      = $data['subject'];
+//		$instance->emailTo      = $data['emailTo'];
+//		$instance->subject      = $data['subject'];
 		$instance->integrations = $data['integrations'];
 
 		return $instance;
@@ -90,41 +90,41 @@ class Brizy_Editor_Forms_Form extends Brizy_Admin_Serializable {
 		return $this;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getEmailTo() {
-		return $this->emailTo;
-	}
-
-	/**
-	 * @param string $emailTo
-	 *
-	 * @return Brizy_Editor_Forms_Form
-	 */
-	public function setEmailTo( $emailTo ) {
-		$this->emailTo = $emailTo;
-
-		return $this;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getSubject() {
-		return $this->subject;
-	}
-
-	/**
-	 * @param string $subject
-	 *
-	 * @return Brizy_Editor_Forms_Form
-	 */
-	public function setSubject( $subject ) {
-		$this->subject = $subject;
-
-		return $this;
-	}
+//	/**
+//	 * @return string
+//	 */
+//	public function getEmailTo() {
+//		return $this->emailTo;
+//	}
+//
+//	/**
+//	 * @param string $emailTo
+//	 *
+//	 * @return Brizy_Editor_Forms_Form
+//	 */
+//	public function setEmailTo( $emailTo ) {
+//		$this->emailTo = $emailTo;
+//
+//		return $this;
+//	}
+//
+//	/**
+//	 * @return string
+//	 */
+//	public function getSubject() {
+//		return $this->subject;
+//	}
+//
+//	/**
+//	 * @param string $subject
+//	 *
+//	 * @return Brizy_Editor_Forms_Form
+//	 */
+//	public function setSubject( $subject ) {
+//		$this->subject = $subject;
+//
+//		return $this;
+//	}
 
 	/**
 	 * @return Brizy_Editor_Forms_Form
@@ -146,13 +146,20 @@ class Brizy_Editor_Forms_Form extends Brizy_Admin_Serializable {
 			$instance->setId( $_POST['form']['id'] );
 		}
 
-		if ( isset( $_POST['form']['emailTo'] ) ) {
-			$instance->setEmailTo( $_POST['form']['emailTo'] );
-		}
-
-		if ( isset( $_POST['form']['subject'] ) ) {
-			$instance->setSubject( $_POST['form']['subject'] );
-		}
+//		if ( isset( $_POST['form']['emailTo'] ) ) {
+//			$instance->setEma//		if ( isset( $_POST['form']['emailTo'] ) ) {
+//			$instance->setEmailTo( $_POST['form']['emailTo'] );
+//		}
+//
+//		if ( isset( $_POST['form']['subject'] ) ) {
+//			$instance->setSubject( $_POST['form']['subject'] );
+//		}
+ilTo( $_POST['form']['emailTo'] );
+//		}
+//
+//		if ( isset( $_POST['form']['subject'] ) ) {
+//			$instance->setSubject( $_POST['form']['subject'] );
+//		}
 
 		return $instance;
 	}
