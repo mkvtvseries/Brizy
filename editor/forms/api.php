@@ -289,7 +289,7 @@ class Brizy_Editor_Forms_Api {
 			$this->error( 400, "This integration is already created" );
 		}
 
-		$integration = Brizy_Editor_Forms_Integration::createFromJson( stream_get_contents(STDIN) );
+		$integration = Brizy_Editor_Forms_Integration::createFromJson( stream_get_contents( STDIN ) );
 
 		if ( $form->addIntegration( $integration ) ) {
 			$this->success( $integration );
@@ -335,7 +335,7 @@ class Brizy_Editor_Forms_Api {
 			$this->error( 400, "Invalid form integration" );
 		}
 
-		$integration = Brizy_Editor_Forms_Integration::createFromJson( stream_get_contents(STDIN) );
+		$integration = Brizy_Editor_Forms_Integration::createFromJson( stream_get_contents( STDIN ) );
 
 		$integration = $form->updateIntegration( $integration );
 
@@ -393,7 +393,11 @@ class Brizy_Editor_Forms_Api {
 		/**
 		 * @var \BrizyForms\Service\Service $service ;
 		 */
-		$service = \BrizyForms\ServiceFactory::getInstance( $integrationId );
+		$service = \BrizyForms\ServiceFactory::getInstance( $integration->getId() );
+
+		if ( ! ( $service instanceof \BrizyForms\Service\Service ) ) {
+			$this->error( 400, "Invalid integration service" );
+		}
 
 		$response = $service->authenticate();
 
