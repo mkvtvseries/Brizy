@@ -70,7 +70,7 @@ class Brizy_Editor_Forms_Api {
 	private function generateCallback( $formId, $service ) {
 		$params = array(
 			'action'  => self::AJAX_AUTHENTICATION_CALLBACK,
-			'formId' => $formId,
+			'formId'  => $formId,
 			'service' => $service
 
 		);
@@ -188,7 +188,7 @@ class Brizy_Editor_Forms_Api {
 				$platform->notifyFormSubmit( array(
 					'data'             => $_REQUEST['data'],
 					'project_language' => $_REQUEST['project_language'],
-					'formId'          => $form->getId(),
+					'formId'           => $form->getId(),
 				) );
 
 			}
@@ -376,11 +376,32 @@ class Brizy_Editor_Forms_Api {
 		$manager = new Brizy_Editor_Forms_Manager( Brizy_Editor_Project::get() );
 		$form    = $manager->getForm( $_REQUEST['formId'] );
 		if ( ! $form ) {
-			$this->error( 400, "Invalid form id" );
+			$this->error( 404, "Form not found" );
 		}
+
 		$integrationId = $_REQUEST['integration'];
+
 		if ( ! $integrationId ) {
 			$this->error( 400, "Invalid form integration" );
+		}
+
+		$integration = $form->getIntegration( $integrationId );
+
+		if ( ! $integration ) {
+			$this->error( 404, "Integration not found" );
+		}
+
+		/**
+		 * @var \BrizyForms\Service\Service $service ;
+		 */
+		$service = \BrizyForms\ServiceFactory::getInstance( $integrationId );
+
+		$response = $service->authenticate();
+
+		if($response instanceof \BrizyForms\Model\RedirectResponse) {
+			$this->success( $response );
+		} else {
+			
 		}
 
 		$this->error( 501, 'Not implemented' );
