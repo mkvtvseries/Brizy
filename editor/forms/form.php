@@ -147,14 +147,7 @@ class Brizy_Editor_Forms_Form extends Brizy_Admin_Serializable {
 		}
 
 //		if ( isset( $_POST['form']['emailTo'] ) ) {
-//			$instance->setEma//		if ( isset( $_POST['form']['emailTo'] ) ) {
 //			$instance->setEmailTo( $_POST['form']['emailTo'] );
-//		}
-//
-//		if ( isset( $_POST['form']['subject'] ) ) {
-//			$instance->setSubject( $_POST['form']['subject'] );
-//		}
-ilTo( $_POST['form']['emailTo'] );
 //		}
 //
 //		if ( isset( $_POST['form']['subject'] ) ) {
@@ -180,8 +173,8 @@ ilTo( $_POST['form']['emailTo'] );
 
 		if ( is_object( $json_obj ) ) {
 			$instance->setId( $json_obj->id );
-			$instance->setEmailTo( $json_obj->emailTo );
-			$instance->setSubject( $json_obj->subject );
+			//$instance->setEmailTo( $json_obj->emailTo );
+			//$instance->setSubject( $json_obj->subject );
 
 			foreach ( $json_obj->integrations as $integration ) {
 				if ( is_object( $integration ) ) {
