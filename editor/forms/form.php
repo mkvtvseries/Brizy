@@ -219,6 +219,14 @@ class Brizy_Editor_Forms_Form extends Brizy_Admin_Serializable {
 		return null;
 	}
 
+	public function addIntegration( Brizy_Editor_Forms_Integration $anIntegration ) {
+		if ( $this->getIntegration( $anIntegration->getId() ) ) {
+			return false;
+		}
+
+		$this->integrations[] = $anIntegration;
+	}
+
 	/**+
 	 * @param $anIntegration
 	 *

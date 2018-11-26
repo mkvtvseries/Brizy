@@ -177,6 +177,7 @@ class Brizy_Editor_Editor_Editor {
 					'submitForm' => Brizy_Editor_Forms_Api::AJAX_SUBMIT_FORM,
 
 					'getIntegration'          => Brizy_Editor_Forms_Api::AJAX_GET_INTEGRATION,
+					'createIntegration'          => Brizy_Editor_Forms_Api::AJAX_CREATE_INTEGRATION,
 					'updateIntegration'       => Brizy_Editor_Forms_Api::AJAX_UPDATE_INTEGRATION,
 					'deleteIntegration'       => Brizy_Editor_Forms_Api::AJAX_DELETE_INTEGRATION,
 					'authenticateIntegration' => Brizy_Editor_Forms_Api::AJAX_AUTHENTICATE_INTEGRATION,

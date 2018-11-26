@@ -16,6 +16,7 @@ class Brizy_Editor_Forms_Api {
 	const AJAX_SUBMIT_FORM = 'brizy_submit_form';
 
 	const AJAX_GET_INTEGRATION = 'brizy_get_integration';
+	const AJAX_CREATE_INTEGRATION = 'brizy_create_integration';
 	const AJAX_UPDATE_INTEGRATION = 'brizy_update_integration';
 	const AJAX_DELETE_INTEGRATION = 'brizy_delete_integration';
 
@@ -69,7 +70,7 @@ class Brizy_Editor_Forms_Api {
 	private function generateCallback( $formId, $service ) {
 		$params = array(
 			'action'  => self::AJAX_AUTHENTICATION_CALLBACK,
-			'form_id' => $formId,
+			'formId' => $formId,
 			'service' => $service
 
 		);
@@ -89,6 +90,7 @@ class Brizy_Editor_Forms_Api {
 //				'update_form_integration_status'
 //			) );
 			add_action( 'wp_ajax_' . self::AJAX_DELETE_FORM, array( $this, 'delete_form' ) );
+			add_action( 'wp_ajax_' . self::AJAX_CREATE_INTEGRATION, array( $this, 'createIntegration' ) );
 			add_action( 'wp_ajax_' . self::AJAX_GET_INTEGRATION, array( $this, 'getIntegration' ) );
 			add_action( 'wp_ajax_' . self::AJAX_UPDATE_INTEGRATION, array( $this, 'updateIntegration' ) );
 			add_action( 'wp_ajax_' . self::AJAX_DELETE_INTEGRATION, array( $this, 'deleteIntegration' ) );
@@ -121,7 +123,7 @@ class Brizy_Editor_Forms_Api {
 
 			$manager = new Brizy_Editor_Forms_Manager( Brizy_Editor_Project::get() );
 
-			$form = $manager->getForm( $_REQUEST['form_id'] );
+			$form = $manager->getForm( $_REQUEST['formId'] );
 
 			if ( $form ) {
 				$this->success( $form );
@@ -162,7 +164,7 @@ class Brizy_Editor_Forms_Api {
 		try {
 			$this->authorize();
 			$manager = new Brizy_Editor_Forms_Manager( Brizy_Editor_Project::get() );
-			$manager->deleteFormById( $_REQUEST['form_id'] );
+			$manager->deleteFormById( $_REQUEST['formId'] );
 			$this->success( array() );
 		} catch ( Exception $exception ) {
 			Brizy_Logger::instance()->exception( $exception );
@@ -178,7 +180,7 @@ class Brizy_Editor_Forms_Api {
 			 * @var Brizy_Editor_FormsCompatibility fix_Form $form ;
 			 */
 
-			$form = $manager->getForm( $_REQUEST['form_id'] );
+			$form = $manager->getForm( $_REQUEST['formId'] );
 
 			if ( $form->hasIntegrations() ) {
 				// notify platform
@@ -186,7 +188,7 @@ class Brizy_Editor_Forms_Api {
 				$platform->notifyFormSubmit( array(
 					'data'             => $_REQUEST['data'],
 					'project_language' => $_REQUEST['project_language'],
-					'form_id'          => $form->getId(),
+					'formId'          => $form->getId(),
 				) );
 
 			}
@@ -243,7 +245,7 @@ class Brizy_Editor_Forms_Api {
 //		try {
 //
 //			$manager = new Brizy_Editor_Forms_Manager( Brizy_Editor_Project::get() );
-//			$form    = $manager->getForm( $_REQUEST['form_id'] );
+//			$form    = $manager->getForm( $_REQUEST['formId'] );
 //
 //			if ( $form ) {
 //
@@ -269,12 +271,40 @@ class Brizy_Editor_Forms_Api {
 		wp_send_json( $data );
 	}
 
+
+	public function createIntegration() {
+		$this->authorize();
+		$manager = new Brizy_Editor_Forms_Manager( Brizy_Editor_Project::get() );
+		$form    = $manager->getForm( $_REQUEST['formId'] );
+
+		if ( ! $form ) {
+			$this->error( 400, "Invalid form id" );
+		}
+
+		$integrationId = $_REQUEST['integration'];
+		if ( ! $integrationId ) {
+			$this->error( 400, "Invalid form integration id" );
+		}
+
+		if ( $form->getIntegration( $integrationId ) ) {
+			$this->error( 400, "This integration is already created" );
+		}
+
+		$integration = new Brizy_Editor_Forms_Integration( $integrationId );
+
+		if ( $form->addIntegration( $integration ) ) {
+			$this->success( $integration );
+		}
+
+		$this->error( 500, "Unable to create integration" );
+	}
+
 	public function getIntegration() {
 
 		$this->authorize();
 
 		$manager = new Brizy_Editor_Forms_Manager( Brizy_Editor_Project::get() );
-		$form    = $manager->getForm( $_REQUEST['form_id'] );
+		$form    = $manager->getForm( $_REQUEST['formId'] );
 		if ( ! $form ) {
 			$this->error( 400, "Invalid form id" );
 		}
@@ -297,7 +327,7 @@ class Brizy_Editor_Forms_Api {
 		$this->authorize();
 
 		$manager = new Brizy_Editor_Forms_Manager( Brizy_Editor_Project::get() );
-		$form    = $manager->getForm( $_REQUEST['form_id'] );
+		$form    = $manager->getForm( $_REQUEST['formId'] );
 		if ( ! $form ) {
 			$this->error( 400, "Invalid form id" );
 		}
@@ -323,7 +353,7 @@ class Brizy_Editor_Forms_Api {
 		$this->authorize();
 
 		$manager = new Brizy_Editor_Forms_Manager( Brizy_Editor_Project::get() );
-		$form    = $manager->getForm( $_REQUEST['form_id'] );
+		$form    = $manager->getForm( $_REQUEST['formId'] );
 		if ( ! $form ) {
 			$this->error( 400, "Invalid form id" );
 		}
@@ -344,7 +374,7 @@ class Brizy_Editor_Forms_Api {
 	public function authenticateIntegration() {
 
 		$manager = new Brizy_Editor_Forms_Manager( Brizy_Editor_Project::get() );
-		$form    = $manager->getForm( $_REQUEST['form_id'] );
+		$form    = $manager->getForm( $_REQUEST['formId'] );
 		if ( ! $form ) {
 			$this->error( 400, "Invalid form id" );
 		}
@@ -359,7 +389,7 @@ class Brizy_Editor_Forms_Api {
 	public function authenticationCallback() {
 
 		$manager = new Brizy_Editor_Forms_Manager( Brizy_Editor_Project::get() );
-		$form    = $manager->getForm( $_REQUEST['form_id'] );
+		$form    = $manager->getForm( $_REQUEST['formId'] );
 		if ( ! $form ) {
 			$this->error( 400, "Invalid form id" );
 		}
