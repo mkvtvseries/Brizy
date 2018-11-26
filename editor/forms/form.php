@@ -157,6 +157,35 @@ class Brizy_Editor_Forms_Form extends Brizy_Admin_Serializable {
 		return $instance;
 	}
 
+
+	/**
+	 * @return Brizy_Editor_Forms_Form
+	 * @throws Exception
+	 */
+	public static function create_from_json( $json_obj ) {
+		$instance = new self();
+
+		if ( ! isset( $json_obj ) ) {
+			throw new Exception( 'Bad Request', 400 );
+		}
+
+		$_POST['form'] = get_object_vars( $json_obj );
+
+		if ( is_object( $json_obj ) ) {
+			$instance->setId( $json_obj->id );
+			$instance->setEmailTo( $json_obj->emailTo );
+			$instance->setSubject( $json_obj->subject );
+
+			foreach ( $json_obj->integrations as $integration ) {
+				if ( is_object( $integration ) ) {
+					$instance->addIntegration( Brizy_Editor_Forms_Integration::createFromJson( $integration ) );
+				}
+			}
+		}
+
+		return $instance;
+	}
+
 	/**
 	 * Target can be: create | update
 	 *

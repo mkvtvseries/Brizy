@@ -61,6 +61,14 @@ class Brizy_Editor_Forms_Api {
 		$this->initialize();
 	}
 
+	protected function error( $code, $message ) {
+		wp_send_json_error( array( 'code' => $code, 'message' => $message ), $code );
+	}
+
+	protected function success( $data ) {
+		wp_send_json_success( $data );
+	}
+
 	private function authorize() {
 		if ( ! wp_verify_nonce( $_REQUEST['hash'], Brizy_Editor_API::nonce ) ) {
 			wp_send_json_error( array( 'code' => 400, 'message' => 'Bad request' ), 400 );
@@ -143,7 +151,7 @@ class Brizy_Editor_Forms_Api {
 			$this->authorize();
 
 			$manager           = new Brizy_Editor_Forms_Manager( Brizy_Editor_Project::get() );
-			$instance          = Brizy_Editor_Forms_Form::create_from_post();
+			$instance          = Brizy_Editor_Forms_Form::create_from_json( stream_get_contents( STDIN ) );
 			$validation_result = $instance->validate();
 
 			if ( $validation_result === true ) {
@@ -263,15 +271,6 @@ class Brizy_Editor_Forms_Api {
 //		}
 //	}
 
-	protected function error( $code, $message ) {
-		wp_send_json_error( array( 'code' => $code, 'message' => $message ), $code );
-	}
-
-	protected function success( $data ) {
-		wp_send_json( $data );
-	}
-
-
 	public function createIntegration() {
 		$this->authorize();
 		$manager = new Brizy_Editor_Forms_Manager( Brizy_Editor_Project::get() );
@@ -290,7 +289,7 @@ class Brizy_Editor_Forms_Api {
 			$this->error( 400, "This integration is already created" );
 		}
 
-		$integration = new Brizy_Editor_Forms_Integration( $integrationId );
+		$integration = Brizy_Editor_Forms_Integration::createFromJson( stream_get_contents(STDIN) );
 
 		if ( $form->addIntegration( $integration ) ) {
 			$this->success( $integration );
@@ -336,7 +335,7 @@ class Brizy_Editor_Forms_Api {
 			$this->error( 400, "Invalid form integration" );
 		}
 
-		$integration = Brizy_Editor_Forms_Integration::createFromSerializedData( $integrationJSON );
+		$integration = Brizy_Editor_Forms_Integration::createFromJson( stream_get_contents(STDIN) );
 
 		$integration = $form->updateIntegration( $integration );
 
@@ -398,10 +397,10 @@ class Brizy_Editor_Forms_Api {
 
 		$response = $service->authenticate();
 
-		if($response instanceof \BrizyForms\Model\RedirectResponse) {
+		if ( $response instanceof \BrizyForms\Model\RedirectResponse ) {
 			$this->success( $response );
 		} else {
-			
+
 		}
 
 		$this->error( 501, 'Not implemented' );

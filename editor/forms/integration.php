@@ -73,6 +73,24 @@ class Brizy_Editor_Forms_Integration extends Brizy_Admin_Serializable {
 		return $get_object_vars;
 	}
 
+	public static function createFromJson( $json_obj ) {
+		$instance = new self();
+		if ( is_object( $json_obj ) ) {
+
+			$instance->setId( $json_obj->id );
+			$instance->setAccounts( $json_obj->accounts );
+			$instance->setFields( $json_obj->fields );
+			$instance->setGroups( $json_obj->groups );
+			$instance->setUsedAccount( $json_obj->usedAccount );
+			$instance->setUsedGroup( $json_obj->usedGroup );
+			$instance->setFieldsMap( $json_obj->fieldsMap );
+
+		}
+
+		return $instance;
+	}
+
+
 	/**
 	 * @return array|mixed
 	 */
